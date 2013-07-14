@@ -94,6 +94,15 @@ describe User do
     it { should be_invalid}
   end
  
+  describe "Email addresses with mixed case" do
+    let(:mixed_case_email) { "Foo@EXAMPle.CoM" }
+    
+    it "should be saved as all lower-case" do
+      @user.email = mixed_case_email
+      @user.save
+      @user.reload.email.should == mixed_case_email.downcase
+    end
+  end
   describe "Return Value of authentication method" do
     before { @user.save }
     let(:found_user) { User.find_by_email(@user.email) }
